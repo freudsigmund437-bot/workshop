@@ -492,6 +492,71 @@ void getYoungestAnimal() {
         animals[youngestIndex].species, animals[youngestIndex].age, 
         animals[youngestIndex].habitat);
 }
+
+float getAverageAge() {
+    if (id == 0) {
+        return 0.0;
+    }
+    
+    int totalAge = 0;
+    for(int i = 0; i < id; i++) {
+        totalAge += animals[i].age;
+    }
+    
+    return (float)totalAge / id;
+}
+
+void getMostCommonSpecies() {
+    if (id == 0) {
+        printf("No animals in the system.\n");
+        return;
+    }
+
+    // Create arrays to store unique species and their counts
+    char species[MAX][50];
+    int counts[MAX] = {0};
+    int uniqueCount = 0;
+
+    // Count occurrences of each species
+    for(int i = 0; i < id; i++) {
+        int found = 0;
+        // Check if species already exists in our array
+        for(int j = 0; j < uniqueCount; j++) {
+            if(strcmp(animals[i].species, species[j]) == 0) {
+                counts[j]++;
+                found = 1;
+                break;
+            }
+        }
+        // If species not found, add it
+        if(!found) {
+            strcpy(species[uniqueCount], animals[i].species);
+            counts[uniqueCount] = 1;
+            uniqueCount++;
+        }
+    }
+
+    // Find the species with maximum count
+    int maxCount = counts[0];
+    int maxIndex = 0;
+    for(int i = 1; i < uniqueCount; i++) {
+        if(counts[i] > maxCount) {
+            maxCount = counts[i];
+            maxIndex = i;
+        }
+    }
+
+    printf("Most common species: %s (Count: %d)\n", species[maxIndex], maxCount);
+    
+    // Display all animals of this species
+    printf("List of %s:\n", species[maxIndex]);
+    for(int i = 0; i < id; i++) {
+        if(strcmp(animals[i].species, species[maxIndex]) == 0) {
+            printf("ID: %d | Name: %s | Age: %d | Habitat: %s\n",
+                animals[i].id, animals[i].name, animals[i].age, animals[i].habitat);
+        }
+    }
+}
 int main() {
    int choice, choice_of_sorting;
    do {
@@ -654,6 +719,8 @@ int main() {
          getOldestAnimal();
          printf("\n");
          getYoungestAnimal();
+         printf("\nAverage age of animals: %.1f years\n\n", getAverageAge());
+         getMostCommonSpecies();
          break;
       case 0:
          printf("Exiting...\n");
