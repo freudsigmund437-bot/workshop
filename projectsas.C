@@ -439,6 +439,59 @@ void searchAnimalbyname() {
       printf("Animal with name %s not found!\n", animal_name[50]);
    }
 }
+
+///////////////////////////////////////////////////////////////
+// Statistics functions
+///////////////////////////////////////////////////////////////
+int getTotalAnimals() {
+    return id;
+}
+
+void getOldestAnimal() {
+    if (id == 0) {
+        printf("No animals in the system.\n");
+        return;
+    }
+    
+    int maxAge = animals[0].age;
+    int oldestIndex = 0;
+    
+    for(int i = 1; i < id; i++) {
+        if(animals[i].age > maxAge) {
+            maxAge = animals[i].age;
+            oldestIndex = i;
+        }
+    }
+    
+    printf("Oldest animal:\n");
+    printf("ID: %d | Name: %s | Species: %s | Age: %d | Habitat: %s\n",
+        animals[oldestIndex].id, animals[oldestIndex].name, 
+        animals[oldestIndex].species, animals[oldestIndex].age, 
+        animals[oldestIndex].habitat);
+}
+
+void getYoungestAnimal() {
+    if (id == 0) {
+        printf("No animals in the system.\n");
+        return;
+    }
+    
+    int minAge = animals[0].age;
+    int youngestIndex = 0;
+    
+    for(int i = 1; i < id; i++) {
+        if(animals[i].age < minAge) {
+            minAge = animals[i].age;
+            youngestIndex = i;
+        }
+    }
+    
+    printf("Youngest animal:\n");
+    printf("ID: %d | Name: %s | Species: %s | Age: %d | Habitat: %s\n",
+        animals[youngestIndex].id, animals[youngestIndex].name, 
+        animals[youngestIndex].species, animals[youngestIndex].age, 
+        animals[youngestIndex].habitat);
+}
 int main() {
    int choice, choice_of_sorting;
    do {
@@ -596,7 +649,11 @@ int main() {
          }
          break;
       case 6:
-         // statistics();
+         printf("\n===== Animal Statistics =====\n");
+         printf("Total number of animals: %d\n\n", getTotalAnimals());
+         getOldestAnimal();
+         printf("\n");
+         getYoungestAnimal();
          break;
       case 0:
          printf("Exiting...\n");
